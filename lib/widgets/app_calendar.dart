@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:kitty_claws/widgets/app_colors.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+class AppCalendar extends StatelessWidget {
+  final DateTime focusedDay;
+  final List<DateTime> crowCutDates;
+  final int kittyCrowTime;
+  final DateTime? nextCutCrowDate;
+  AppCalendar({super.key, required this.focusedDay, required this.crowCutDates, this.nextCutCrowDate, required this.kittyCrowTime});
+
+  @override
+  Widget build(BuildContext context) {
+    return TableCalendar(
+      locale: 'ja_JP',
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2030, 3, 14),
+      rowHeight: 60,
+      daysOfWeekHeight: 50,
+      focusedDay: focusedDay,
+      calendarStyle: CalendarStyle(
+          tableBorder: TableBorder(
+            verticalInside: BorderSide(color: Colors.black, width: 0.7),
+            horizontalInside: BorderSide(color: Colors.black, width: 0.7),
+          )),
+      headerVisible: false,
+      calendarBuilders: CalendarBuilders(
+        defaultBuilder: (context, day, focusedDay) {
+          return createDay(day);
+        },
+        todayBuilder: (context, day, focusedDay) {
+          return createDay(day);
+        },
+        outsideBuilder: (context, day, focusedDay) {
+          return createOtherDay(day);
+        },
+      ),
+    );
+  }
+
+  /***
+   * 爪を切った日のリストの中に引数で渡されたdayがあればTrueを返却
+   */
+  bool isSameDay(DateTime day){
+    for(var ite = crowCutDates.iterator;ite.moveNext(); ){
+      var currentDate = ite.current;
+      if(currentDate.year == day.year && currentDate.month == day.month && currentDate.day == day.day){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  Widget createDay(DateTime day) {
+    Color holiday = AppColors.cellColor;
+    if (day.weekday == 6) {
+      holiday = AppColors.satColor;
+    } else if (day.weekday == 7) {
+      holiday = AppColors.sunColor;
+    }
+
+    bool doShowCatCrow = isSameDay(day);
+
+    DateTime? next =  nextCutCrowDate;
+    bool doShowNextCatCrow = next == null? false: next.year == day.year && next.month == day.month && next.day == day.day;
+
+    return Container(
+      color: holiday,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Center(child: Text("${day.day}")),
+          ),
+          if (doShowCatCrow) Positioned(
+              bottom: 5,
+              child: SizedBox(
+                  width: 32,
+                  child: Image.asset("assets/images/icon_cat_paw.png"))
+          ),
+          if (doShowNextCatCrow) Positioned(
+              bottom: 5,
+              child: SizedBox(
+                  width: 32,
+                  child: Image.asset("assets/images/icon_cat_paw2.png"))
+          )
+
+        ],
+      ),
+    );
+  }
+
+  Widget createOtherDay(DateTime day) {
+    return Container(
+      color: AppColors.otherColor,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Center(child: Text("${day.day}")),
+          )
+        ],
+      ),
+    );
+  }
+}
