@@ -11,7 +11,7 @@ class KittyClawTime extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    int nextDay = 0;
+    int nextDay = 0; //issuesのテスト
     if(nextCutCrowDate!=null){
       Duration days = DateTime.now().difference(nextCutCrowDate!);
       nextDay = days.inDays;
