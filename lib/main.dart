@@ -114,52 +114,54 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding:
-              EdgeInsets.only(left: 15, top: 23, bottom: 32, right: 19),
-              child: AppHeader(
-                month: focusedDay,
-                onTapForward: () {
-                  print("onTapが機能");
-                  setState(() {
-                    focusedDay = DateTime(
-                        focusedDay.year, focusedDay.month - 1, focusedDay.day);
-                    print(focusedDay.toIso8601String());
-                  });
-                },
-                onTapBack: () {
-                  print("onTapが機能");
-                  setState(() {
-                    focusedDay = DateTime(
-                        focusedDay.year, focusedDay.month + 1, focusedDay.day);
-                    print(focusedDay.toIso8601String());
-                  });
-                },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                EdgeInsets.only(left: 15, top: 23, bottom: 32, right: 19),
+                child: AppHeader(
+                  month: focusedDay,
+                  onTapForward: () {
+                    print("onTapが機能");
+                    setState(() {
+                      focusedDay = DateTime(
+                          focusedDay.year, focusedDay.month - 1, focusedDay.day);
+                      print(focusedDay.toIso8601String());
+                    });
+                  },
+                  onTapBack: () {
+                    print("onTapが機能");
+                    setState(() {
+                      focusedDay = DateTime(
+                          focusedDay.year, focusedDay.month + 1, focusedDay.day);
+                      print(focusedDay.toIso8601String());
+                    });
+                  },
+                ),
               ),
-            ),
-            AppDivider(),
-            AppCalendar(
-              focusedDay: focusedDay,
-              crowCutDates: crowCutDates,
-              kittyCrowTime: kittyCrowTime,
-              nextCutCrowDate: nextCutCrowDate,
-            ),
-            AppDivider(),
-            Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: KittyClawTime(
+              AppDivider(),
+              AppCalendar(
+                focusedDay: focusedDay,
+                crowCutDates: crowCutDates,
                 kittyCrowTime: kittyCrowTime,
                 nextCutCrowDate: nextCutCrowDate,
-                onSelectedCrowTime: (selectedDay){
-                  setState(() {
-                    kittyCrowTime = selectedDay;
-                    save();
-                  });
-                },),
-            ),
-          ],
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: KittyClawTime(
+                  kittyCrowTime: kittyCrowTime,
+                  nextCutCrowDate: nextCutCrowDate,
+                  onSelectedCrowTime: (selectedDay){
+                    setState(() {
+                      kittyCrowTime = selectedDay;
+                      save();
+                    });
+                  },),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
