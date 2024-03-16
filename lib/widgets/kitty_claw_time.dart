@@ -13,7 +13,7 @@ class KittyClawTime extends StatelessWidget{
 
     int nextDay = 0; //issuesのテスト
     if(nextCutCrowDate!=null){
-      Duration days = DateTime.now().difference(nextCutCrowDate!);
+      Duration days = nextCutCrowDate!.add(Duration(days:1)).difference(DateTime.now());
       nextDay = days.inDays;
     }
 
