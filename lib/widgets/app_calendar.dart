@@ -65,6 +65,8 @@ class AppCalendar extends StatelessWidget {
     DateTime? next =  nextCutCrowDate;
     bool doShowNextCatCrow = next == null? false: next.year == day.year && next.month == day.month && next.day == day.day;
 
+    bool doShowToday  = DateTime.now() == day;
+
     return Container(
       color: holiday,
       child: Stack(
@@ -87,6 +89,13 @@ class AppCalendar extends StatelessWidget {
               child: SizedBox(
                   width: 32,
                   child: Image.asset("assets/images/icon_cat_paw2.png"))
+          ),
+          if(doShowToday) Positioned(
+            bottom: 5,
+              child: SizedBox(
+                  width: 32,
+                  child: Image.asset("assets/images/icon_cat_paw2.png"))
+
           )
 
         ],
