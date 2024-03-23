@@ -41,12 +41,17 @@ class AppCalendar extends StatelessWidget {
   /***
    * 爪を切った日のリストの中に引数で渡されたdayがあればTrueを返却
    */
-  bool isSameDay(DateTime day){
+  bool isSameDays(DateTime day){
     for(var ite = crowCutDates.iterator;ite.moveNext(); ){
       var currentDate = ite.current;
-      if(currentDate.year == day.year && currentDate.month == day.month && currentDate.day == day.day){
-        return true;
-      }
+      return isSameDay(currentDate, day);
+    }
+    return false;
+  }
+
+  bool isSameDay(DateTime a, DateTime b){
+    if(a.year == b.year && a.month == b.month && a.day == b.day){
+      return true;
     }
     return false;
   }
@@ -60,12 +65,12 @@ class AppCalendar extends StatelessWidget {
       holiday = AppColors.sunColor;
     }
 
-    bool doShowCatCrow = isSameDay(day);
+    bool doShowCatCrow = isSameDays(day);
 
     DateTime? next =  nextCutCrowDate;
     bool doShowNextCatCrow = next == null? false: next.year == day.year && next.month == day.month && next.day == day.day;
 
-    bool doShowToday  = DateTime.now() == day;
+    bool doShowToday  = isSameDay(DateTime.now(), day);
 
     return Container(
       color: holiday,
