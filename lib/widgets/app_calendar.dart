@@ -44,7 +44,7 @@ class AppCalendar extends StatelessWidget {
   bool isSameDays(DateTime day){
     for(var ite = crowCutDates.iterator;ite.moveNext(); ){
       var currentDate = ite.current;
-      return isSameDay(currentDate, day);
+      if(isSameDay(currentDate, day)) return true;
     }
     return false;
   }
