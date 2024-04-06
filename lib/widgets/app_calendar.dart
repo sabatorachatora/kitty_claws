@@ -99,7 +99,7 @@ class AppCalendar extends StatelessWidget {
             bottom: 5,
               child: SizedBox(
                   width: 32,
-                  child: Image.asset("assets/images/icon_cat_paw2.png"))
+                  child: Image.asset("assets/images/icon_todays.png"))
 
           )
 

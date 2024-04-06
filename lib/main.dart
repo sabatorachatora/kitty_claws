@@ -113,6 +113,15 @@ class _MyHomePageState extends State<MyHomePage> {
     DateTime? nextCutCrowDate = getNextCutCrowDate();
 
     return Scaffold(
+    /***floatingActionButton:ElevatedButton(      // 要修正、次回までに完成させておく事
+        onPressed: ()=>_showDialog(context),
+        //tooltip: 'Increment',
+        child: const Text('ボタン'),
+        style: ElevatedButton.styleFrom(
+          shape: CircleBorder(),
+        ),
+      ),***/
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -164,10 +173,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+
+
+
+    floatingActionButton: FloatingActionButton(
         onPressed: ()=>_showDialog(context),
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.edit_outlined),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
