@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kitty_claws/widgets/app_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
+typedef OnRemoveDay= void Function(DateTime day);
 
 class AppCalendar extends StatelessWidget {
   final DateTime focusedDay;
   final List<DateTime> crowCutDates;
   final int kittyCrowTime;
   final DateTime? nextCutCrowDate;
-  AppCalendar({super.key, required this.focusedDay, required this.crowCutDates, this.nextCutCrowDate, required this.kittyCrowTime});
+  final OnRemoveDay? onRemoveDay;
+  AppCalendar({super.key, required this.focusedDay, required this.crowCutDates, this.nextCutCrowDate, required this.kittyCrowTime, this.onRemoveDay});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,9 @@ class AppCalendar extends StatelessWidget {
               bottom: 5,
               child: SizedBox(
                   width: 32,
-                  child: Image.asset("assets/images/icon_cat_paw.png"))
+                  child: GestureDetector(
+                    onTap: ()=>onRemoveDay?.call(day),
+                      child: Image.asset("assets/images/icon_cat_paw.png")))
           ),
           if (doShowNextCatCrow) Positioned(
               bottom: 5,
@@ -107,6 +111,8 @@ class AppCalendar extends StatelessWidget {
       ),
     );
   }
+
+
 
   Widget createOtherDay(DateTime day) {
     return Container(

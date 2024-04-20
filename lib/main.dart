@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
     DateTime? nextCutCrowDate = getNextCutCrowDate();
 
     return Scaffold(
-    /***floatingActionButton:ElevatedButton(      // 要修正、次回までに完成させておく事
+    /***floatingActionButton:ElevatedButton(      // 要修正
         onPressed: ()=>_showDialog(context),
         //tooltip: 'Increment',
         child: const Text('ボタン'),
@@ -155,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crowCutDates: crowCutDates,
                 kittyCrowTime: kittyCrowTime,
                 nextCutCrowDate: nextCutCrowDate,
+                onRemoveDay: ontapDay,
               ),
               AppDivider(),
               Padding(
@@ -199,4 +200,19 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
   }
+
+  void ontapDay(DateTime day){
+    print("OntapDayがクリックされました。${day}");
+    setState(() {
+      int ret=crowCutDates.indexWhere((element) => element.year== day.year &&
+          element.month== day.month && element.day== day.day);
+      if(ret!= -1){
+
+        crowCutDates.removeAt(ret);
+        save();
+      }
+
+    });
+  }
+
 }
