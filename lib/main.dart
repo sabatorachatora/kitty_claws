@@ -9,6 +9,7 @@ import 'package:kitty_claws/widgets/calendar_back_button.dart';
 import 'package:kitty_claws/widgets/calendar_forward_button.dart';
 import 'package:kitty_claws/widgets/calendar_title.dart';
 import 'package:kitty_claws/widgets/kitty_claw_time.dart';
+import 'package:kitty_claws/widgets/yes_no_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -201,18 +202,36 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void ontapDay(DateTime day){
+  void ontapDay(DateTime day)  {
     print("OntapDayがクリックされました。${day}");
-    setState(() {
-      int ret=crowCutDates.indexWhere((element) => element.year== day.year &&
-          element.month== day.month && element.day== day.day);
-      if(ret!= -1){
-
-        crowCutDates.removeAt(ret);
-        save();
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text('確認'),
+          content: Text('選択した${day.day}のデータを削除しますか？'),
+          actions: [
+              TextButton(child: Text('ok'), onPressed: (){
+                setState(() {
+                  int ret=crowCutDates.indexWhere((element) => element.year== day.year &&
+                  element.month== day.month && element.day== day.day);
+                  if(ret!= -1){
+                    crowCutDates.removeAt(ret);
+                    save();
+                  }
+                });
+                Navigator.pop(context);
+              }),
+            TextButton(child: Text('cancel'), onPressed: (){
+                Navigator.pop(context);
+                })
+            ],
+        );
       }
+    );
 
-    });
+
+
   }
 
 }
