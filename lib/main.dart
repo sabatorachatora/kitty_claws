@@ -9,7 +9,6 @@ import 'package:kitty_claws/widgets/calendar_back_button.dart';
 import 'package:kitty_claws/widgets/calendar_forward_button.dart';
 import 'package:kitty_claws/widgets/calendar_title.dart';
 import 'package:kitty_claws/widgets/kitty_claw_time.dart';
-import 'package:kitty_claws/widgets/yes_no_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -157,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 kittyCrowTime: kittyCrowTime,
                 nextCutCrowDate: nextCutCrowDate,
                 onRemoveDay: ontapDay,
+                onAddDay: onDayAdd,
               ),
               AppDivider(),
               Padding(
@@ -209,9 +209,9 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context){
         return AlertDialog(
           title: Text('確認'),
-          content: Text('選択した${day.day}のデータを削除しますか？'),
+          content: Text('選択した${day.day}日のデータを削除しますか？'),
           actions: [
-              TextButton(child: Text('ok'), onPressed: (){
+              TextButton(child: Text('OK'), onPressed: (){
                 setState(() {
                   int ret=crowCutDates.indexWhere((element) => element.year== day.year &&
                   element.month== day.month && element.day== day.day);
@@ -222,16 +222,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
                 Navigator.pop(context);
               }),
-            TextButton(child: Text('cancel'), onPressed: (){
+            TextButton(child: Text('Cancel'), onPressed: (){
                 Navigator.pop(context);
                 })
             ],
         );
       }
     );
+  }
 
-
-
+  void onDayAdd(DateTime day){
+    print("onDayAddがクリックされました。${day}");
   }
 
 }
