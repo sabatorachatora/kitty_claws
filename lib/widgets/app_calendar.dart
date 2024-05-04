@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitty_claws/widgets/app_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
 typedef OnRemoveDay= void Function(DateTime day);
+typedef OnAddDay= void Function(DateTime day);
 
 class AppCalendar extends StatelessWidget {
   final DateTime focusedDay;
@@ -9,7 +10,8 @@ class AppCalendar extends StatelessWidget {
   final int kittyCrowTime;
   final DateTime? nextCutCrowDate;
   final OnRemoveDay? onRemoveDay;
-  AppCalendar({super.key, required this.focusedDay, required this.crowCutDates, this.nextCutCrowDate, required this.kittyCrowTime, this.onRemoveDay});
+  final OnAddDay? onAddDay;
+  AppCalendar({super.key, required this.focusedDay, required this.crowCutDates, this.nextCutCrowDate, required this.kittyCrowTime, this.onRemoveDay, this.onAddDay});
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,7 @@ class AppCalendar extends StatelessWidget {
     bool doShowNextCatCrow = next == null? false: next.year == day.year && next.month == day.month && next.day == day.day;
 
     bool doShowToday  = isSameDay(DateTime.now(), day);
+    bool doShowOtherday = day.isBefore(DateTime.now());
 
     return Container(
       color: holiday,
@@ -100,11 +103,18 @@ class AppCalendar extends StatelessWidget {
                   child: Image.asset("assets/images/icon_cat_paw2.png"))
           ),
           if(doShowToday) Positioned(
-            bottom: 5,
+            bottom: 22,
               child: SizedBox(
-                  width: 32,
+                  width: 16,
                   child: Image.asset("assets/images/icon_todays.png"))
 
+          ),
+          if(doShowOtherday) Positioned(
+              bottom: 5,
+              child: SizedBox(
+                  width: 32,
+                  child: GestureDetector(
+                      onTap: ()=>onAddDay?.call(day) ))
           )
 
         ],
