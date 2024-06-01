@@ -62,11 +62,13 @@ class AppCalendar extends StatelessWidget {
 
 
   Widget createDay(DateTime day) {
-    Color holiday = AppColors.cellColor;
-    if (day.weekday == 6) {
-      holiday = AppColors.satColor;
+    Color backgroundColor = AppColors.cellColor;
+    if(isSameDay(DateTime.now(), day)){
+      backgroundColor = AppColors.todayColor;
+    }else if (day.weekday == 6) {
+      backgroundColor = AppColors.satColor;
     } else if (day.weekday == 7) {
-      holiday = AppColors.sunColor;
+      backgroundColor = AppColors.sunColor;
     }
 
     bool doShowCatCrow = isSameDays(day);
@@ -75,10 +77,10 @@ class AppCalendar extends StatelessWidget {
     bool doShowNextCatCrow = next == null? false: next.year == day.year && next.month == day.month && next.day == day.day;
 
     bool doShowToday  = isSameDay(DateTime.now(), day);
-    bool doShowOtherday = day.isBefore(DateTime.now());
+    bool doShowOtherday = day.isAfter(DateTime.now()) && !doShowToday && !doShowCatCrow /**&& !doShowNextCatCrow**/;
 
     return Container(
-      color: holiday,
+      color: backgroundColor,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -102,19 +104,31 @@ class AppCalendar extends StatelessWidget {
                   width: 32,
                   child: Image.asset("assets/images/icon_cat_paw2.png"))
           ),
-          if(doShowToday) Positioned(
+          /***if(doShowToday) Positioned(
             bottom: 22,
               child: SizedBox(
                   width: 16,
                   child: Image.asset("assets/images/icon_todays.png"))
 
-          ),
+          ),***/
           if(doShowOtherday) Positioned(
               bottom: 5,
               child: SizedBox(
                   width: 32,
                   child: GestureDetector(
-                      onTap: ()=>onAddDay?.call(day) ))
+                      onTap: ()=>onAddDay?.call(day),
+                    child: Image.asset("assets/images/day_add.png"),
+                  )
+              )
+          )else if(doShowToday) Positioned(
+              bottom: 5,
+              child: SizedBox(
+                  width: 32,
+                  child: GestureDetector(
+                    onTap: ()=>onAddDay?.call(day),
+                    child: Image.asset("assets/images/day_add.png"),
+                  )
+              )
           )
 
         ],

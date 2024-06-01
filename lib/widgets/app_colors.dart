@@ -6,5 +6,6 @@ class AppColors{
   static const Color otherColor = Color(0xffd4d4d4);
   static const Color satColor = Color(0xff8aa3e5);
   static const Color sunColor = Color(0xffbe8282);
+  static const Color todayColor = Color(0xff61b451);
 }
 

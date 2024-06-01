@@ -202,6 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
+
   void ontapDay(DateTime day)  {
     print("OntapDayがクリックされました。${day}");
     showDialog(
@@ -233,6 +235,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void onDayAdd(DateTime day){
     print("onDayAddがクリックされました。${day}");
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text('確認'),
+            content: Text('選択した${day.day}日にデータを追加しますか？'),
+            actions: [
+              TextButton(child: Text('OK'), onPressed: (){
+                setState(() {
+                  crowCutDates.add(day);
+                  save();
+                });
+                Navigator.pop(context);
+              }),
+              TextButton(child: Text('Cancel'), onPressed: (){
+                Navigator.pop(context);
+              })
+            ],
+          );
+        }
+    );
   }
 
 }
